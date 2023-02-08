@@ -17,11 +17,11 @@ Testen, dass Fuseki erreichbar ist:
 
 ## Config
 
-    make config
+    config [prod|dev]
 
 ## Update
 
-    sudo make build
+    sudo ./build
 
 ### Import
 

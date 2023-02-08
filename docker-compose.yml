@@ -37,5 +37,5 @@ services:
       - fuseki-cache
     volumes:
       - type: bind
-        source: ./config/config-docker-compose.ttl
+        source: ./skosmos-config.ttl
         target: /var/www/html/config.ttl
