@@ -1,5 +1,7 @@
 *.swp
 
+config/config-docker-compose.ttl
+
 import/
 
 fuseki-data/*/

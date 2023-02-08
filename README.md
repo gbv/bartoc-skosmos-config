@@ -15,17 +15,25 @@ Testen, dass Fuseki erreichbar ist:
 
 	curl localhost:9031/\$/ping
 
+## Config
+
+    make config
+
 ## Update
 
-    sudo docker compose up -d
-
-### Update Skosmos web application (e.g. CSS file)
-
-    sudo docker compose build && sudo docker compose up -d
+    sudo make build
 
 ### Import
 
-~~~sh
-./import.sh http://skos.um.es/unescothes/ unescothes.ttl
-./import.sh http://zbw.eu/stw/ stw.ttl
-~~~
+See `./import.sh`. To automatically import files from `import/` directory listed in `vocabularies.ttl`: 
+
+    ./import.sh --all
+
+Script requires `comunica-sparql-file` but this may be changed:
+
+    npm install -g @comunica/query-sparql-file
+
+## Usage
+
+Dev-instance is be made available <http://localhost:9090/>. Production instance at <https://skosmos.bartoc.org/>.
+
