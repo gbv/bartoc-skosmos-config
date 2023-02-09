@@ -1,0 +1,37 @@
+:root {
+  --dark-color:	#961300; /* topbar nav link text, dropdown text, buttons */
+  --secondary-dark-color: #961300; /* disabled buttons */
+  --medium-color: #961300; /* used for skosmos service name (top left logo), link texts (a), header bar, hovered dropdown menu items, placeholders in form input fields */
+  --light-color: #007BFF; /* used for concept property dividers */
+  --link-hover-color: #23527C; /* used for hovered links, clipboard icon */
+  /* FIXME: --tooltip-text-color is not used?
+  --tooltip-bg-color: #FFFFFF;
+  --tooltip-text-color: #474B4F;
+  */
+  --tooltip-border-color: #961300; /*also used as typeahead focus border */
+  --main-bg-color: #f8f9fa;
+  --alert-color-pale: #D95F8A;
+  --alert-color-bright: #ED0D6C;
+  --uri-id-text-color: #006621; /* only used in search results */
+  --scroll-box-color: #474b4f;
+  --scroll-bar-color: #b9c1c6;
+}
+
+.topbar-container, .headerbar, .topbar-white, .search-vocab-text {
+  background-color: var(--dark-color);
+}
+.topbar a.navigation-font, .topbar span, #service-name {
+  color: #fff;
+}
+
+#language > .dropdown-toggle {
+  color: #fff !important;
+}
+
+footer {
+  background: #6c757d;
+  color: #6c757d;
+}
+footer a {
+  color: #fff;
+}

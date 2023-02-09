@@ -37,3 +37,8 @@ Script requires `comunica-sparql-file` but this may be changed:
 
 Dev-instance is be made available <http://localhost:9090/>. Production instance at <https://skosmos.bartoc.org/>.
 
+## Troubleshooting
+
+Fuseki might not restart because it locks its database. Try to remove lock and restart:
+
+    sudo rm fuseki-data/databases/skosmos/tdb.lock
