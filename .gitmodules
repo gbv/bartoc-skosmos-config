@@ -1,3 +1,4 @@
 [submodule "Skosmos"]
 	path = Skosmos
-	url = https://github.com/NatLibFi/Skosmos.git
+	url = https://github.com/gbv/bartoc-skosmos.git
+	branch = bartoc

@@ -1,0 +1,38 @@
+# This file is merged into Skosmos configuration for specific
+# settings not included in BARTOC terminology registry.
+
+@base <#> .
+@prefix void: <http://rdfs.org/ns/void#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix skosmos: <http://purl.org/net/skosmos#>.
+@prefix dc: <http://purl.org/dc/terms/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+<15>
+    skosmos:deprecatedShortName "EuroVoc"; 
+    skosmos:showTopConcepts "true";
+    skosmos:sparqlGraph <http://eurovoc.europa.eu/>.
+
+<1232>
+    skosmos:showTopConcepts "true";
+    void:dataDump <https://www.nomenclature.info/api/dataset/nom?format=TURTLE>;
+    skosmos:deprecatedShortName "NMC" .
+
+<192>
+    void:dataDump <https://vocabulary.curriculum.edu.au/scot/export/scot.rdf>;
+    skosmos:deprecatedShortName "ScOT";
+    skosmos:showTopConcepts "true";
+    skosmos:defaultLanguage "en".
+
+<888>
+    skosmos:deprecatedShortName "DiccNum".
+
+
+<1961>
+    skosmos:deprecatedShortName "sosemwebth"; 
+    skosmos:defaultLanguage "en";
+    void:dataDump <http://vocabulary.semantic-web.at/semweb/export/semweb.ttl> ;
+    skosmos:showTopConcepts "true"
+    .
+

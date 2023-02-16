@@ -1,7 +1,15 @@
 *.swp
 
-skosmos-config.ttl
+.*
+!.gitignore
+
+node_modules
+
+voc.md.mjs
+
+load/
+vocabularies.ttl
 
 import/
-
-fuseki-data/*/
+!import/Makefile
+!import/*.sh

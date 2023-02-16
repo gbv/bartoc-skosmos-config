@@ -1,0 +1,111 @@
+#
+# Vocabulary categories used to classify vocabularies at main page
+#
+# This is Dewey Decimal Classification, first level only.
+#
+
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<http://dewey.info/scheme/edition/e23/> a skos:ConceptScheme;
+    skos:prefLabel "Skosmos Vocabulary Categories"@en .
+
+<http://dewey.info/class/0/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Informatique, information et ouvrages généraux"@fr ,
+    	"Generalità, Informatica e Informazione"@it ,
+    	"Ciencias de la Computación, Información y Obras Generales"@es ,
+    	"Informatik, Informationswissenschaft & allgemeine Werke"@de ,
+	"Computer science, information & general works"@en .
+
+<http://dewey.info/class/1/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Philosophie et psychologie"@fr ,
+    	"Filosofia e Psicologia"@it ,
+    	"Filosofía y Psicología"@es ,
+	"Philosophie und Psychologie"@de ,
+	"Philosophy & psychology"@en .
+
+<http://dewey.info/class/2/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Religieux"@fr , 
+    	"Religione"@it ,
+    	"Religión, Teología"@es ,
+	"Religion"@de ,
+	"Religion"@en .
+
+<http://dewey.info/class/3/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Sciences sociales"@fr ,
+    	"Scienze Sociali"@it ,
+    	"Ciencias Sociales"@es ,
+	"Sozialwissenschaften"@de ,
+    	"Social sciences"@en .
+
+<http://dewey.info/class/4/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Langue"@fr ,
+    	"Linguaggio"@it ,
+    	"Lenguas"@es ,
+	"Sprache"@de ,
+	"Language"@en .
+
+<http://dewey.info/class/5/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Science pure"@fr ,
+    	"Scienze matematiche, fisiche e naturali"@it ,
+    	"Ciencias Básicas"@es ,
+	"Naturwissenschaften"@de ,
+	"Science"@en .
+
+<http://dewey.info/class/6/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Technologie"@fr ,
+    	"Tecnologia e Scienze applicate"@it ,
+    	"Tecnología y Ciencias Aplicadas"@es ,
+	"Technik"@de ,
+	"Technology"@en .
+
+<http://dewey.info/class/7/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Arts et loisirs"@fr ,
+   	"Arti"@it ,
+    	"Artes y recreación"@es ,
+	"Künste & Unterhaltung"@de ,
+	"Arts & recreation"@en .
+
+<http://dewey.info/class/8/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Littérature"@fr ,
+    	"Letteratura"@it ,
+    	"Literatura"@es ,
+	"Literatur"@de ,
+	"Literature"@en .
+
+<http://dewey.info/class/9/e23/> a skos:Concept ;
+    skos:topConceptOf <http://dewey.info/scheme/edition/e23/> ;
+    skos:inScheme <http://dewey.info/scheme/edition/e23/> ;
+    skos:prefLabel
+    	"Histoire et géographie"@fr ,
+    	"Geografia e Storia"@it ,
+    	"Historia y Geografía"@es ,
+	"Geschichte & Geografie"@de ,
+	"History & geography"@en .
+

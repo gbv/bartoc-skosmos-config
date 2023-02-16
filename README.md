@@ -1,44 +1,33 @@
 # BARTOC Skosmos
 
-Dieses Repository enthält Konfigurationsdateien für BARTOC Skosmos and der VZG.
+Dieses Repository enthält Konfigurationsdateien und Skripte zur Verwaltung von BARTOC Skosmos (<https://skosmos.bartoc.org/>).
 
-BARTOC Skosmos wurde bis 2023 an der UB Basel gehostet.
+Vorausgesetzt wird ein Fuseki-Triple-Store, der per Port 3030 erreichbar ist.
 
-## Installation
+## Vokabulare hinzufügen, aktualisieren, löschen...
 
-Vorausgesetzt wird Docker mit docker-compose.
+Das Skript `voc.md` benötigt [zx](https://github.com/google/zx).
 
-Die Konfiguration befindet sich wie [hier beschrieben](https://github.com/NatLibFi/Skosmos/wiki/Install-Skosmos-with-Fuseki-in-Docker) in
-der Datei `docker-compose.yml` und weiteren dort referenzierten Konfigurationsdateien im Verzeichnis `config/`.
+~~
+./voc.md info $id
+./voc.md add $id   # add or replace
+./voc.md load $id
+~~~
 
-Testen, dass Fuseki erreichbar ist:
+Das Entfernen von Vokabular-Daten aus Fuseki geht so:
 
-	curl localhost:9031/\$/ping
+~~~
+/opt/fuseki/bin/s-delete http://esx-43.gbv.de:3030/skosmos/data $graph
+~~~
 
-## Config
+## Update von Skosmos
 
-    config [prod|dev]
+Permanenter Wechsel des Branch von Skosmos:
 
-## Update
+~~
+git submodule set-branch -b $branch Skosmos
+git submodule sync
+git submodule update --init --recursive --remote
+~~
 
-    sudo ./build
 
-### Import
-
-See `./import.sh`. To automatically import files from `import/` directory listed in `vocabularies.ttl`: 
-
-    ./import.sh --all
-
-Script requires `comunica-sparql-file` but this may be changed:
-
-    npm install -g @comunica/query-sparql-file
-
-## Usage
-
-Dev-instance is be made available <http://localhost:9090/>. Production instance at <https://skosmos.bartoc.org/>.
-
-## Troubleshooting
-
-Fuseki might not restart because it locks its database. Try to remove lock and restart:
-
-    sudo rm fuseki-data/databases/skosmos/tdb.lock
