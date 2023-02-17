@@ -11,8 +11,7 @@
 
 <15>
     skosmos:deprecatedShortName "EuroVoc"; 
-    skosmos:showTopConcepts "true";
-    skosmos:sparqlGraph <http://eurovoc.europa.eu/>.
+    skosmos:showTopConcepts "true".
 
 <1232>
     skosmos:showTopConcepts "true";
@@ -28,7 +27,6 @@
 <888>
     skosmos:deprecatedShortName "DiccNum".
 
-
 <1961>
     skosmos:deprecatedShortName "sosemwebth"; 
     skosmos:defaultLanguage "en";
@@ -36,3 +34,7 @@
     skosmos:showTopConcepts "true"
     .
 
+<18688>
+    skosmos:deprecatedShortName "charreq"; 
+    skosmos:fullAlphabeticalIndex "true";
+    void:dataDump <https://www.w3.org/2003/03/glossary-project/data/glossaries/charreq.rdf>.

@@ -210,8 +210,12 @@ if (cmd == "load") {
   }
 } else if (cmd == "add") {
   if (count) {
-    vocs.removeMatches(namedNode(id), null, null)
+    // removeMatches did not work, so do it this way
+    for(let quad of vocs.getQuads(namedNode(id))) {
+      vocs.removeQuad(quad)
+    }
   }
+
   vocs.addQuads(store.getQuads())
   echo((count ? `Update ${id} in` : `Add ${id} to`) + ' vocabularies.ttl')
   fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))

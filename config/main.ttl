@@ -19,7 +19,7 @@
     skosmos:httpTimeout 5 ;
     # customize the service name
     skosmos:serviceName "BARTOC Skosmos (beta)" ;
-    skosmos:baseHref "https://skosmos.bartoc.org" ;
+    skosmos:baseHref "https://skosmos.bartoc.org/" ;
     # interface languages available, and the corresponding system locales
     skosmos:languages (
         [ rdfs:label "en" ; rdf:value "en_GB.utf8" ]
