@@ -1,0 +1,31 @@
+#!/usr/bin/bash
+set -e
+
+if [[ "$#" -ne 2 ]]; then
+  echo "Usage: $0 <file> {turtle|ntriples|rdfxml|...}"
+  exit
+fi
+
+file=$1
+format=$2
+
+if [[ ! -f "$file" ]]; then
+  echo "File not found: $file"
+  exit 1
+fi
+
+stage=$HOME/stage
+id=$(dirname $(realpath -e --relative-to=$stage $file))
+
+if [[ ! $id =~ ^[0-9]+$ ]]; then
+  echo "File must be unter $stage/{id}/"
+  exit 1
+fi
+
+# first count, this will abort on error
+rapper -i $format -c "$file"
+
+load=$(realpath --relative-to="$PWD" $stage/../load/$id.nt)
+
+rapper -q -i $format -o ntriples "$file" > "$load" 
+echo "Converted $file to $load"

@@ -5,13 +5,13 @@ The script expects a command as first argument
 ```js
 const cmd = argv._[0] || ""
 const self = process.argv[2]
-const usage = `Usage: ${self} info|load|add bartoc-uri`
+const usage = `Usage: ${self} info|load|add|remove bartoc-uri`
 if (argv.help || argv.h || !cmd) {
   echo(usage)  
   process.exit()
 }
 
-if (!cmd.match(/^info|load|add$/)) {
+if (!cmd.match(/^info|load|add|remove$/)) {
   error(`Unknown command: ${cmd}`)
 }
 ```
@@ -220,6 +220,17 @@ if (cmd == "load") {
   echo((count ? `Update ${id} in` : `Add ${id} to`) + ' vocabularies.ttl')
   fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
   $`make config`
+} else if (cmd == "remove") {
+  if (count) {
+    echo(`Remove ${id} from vocabularies.ttl`)
+    for(let quad of vocs.getQuads(namedNode(id))) {
+      vocs.removeQuad(quad)
+    }
+    fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
+    $`make config`
+  } else {
+    echo `Vocabulary ${id} has not been added.`
+  }
 }
 ```
 
