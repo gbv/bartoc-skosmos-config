@@ -5,13 +5,13 @@ The script expects a command as first argument
 ```js
 const cmd = argv._[0] || ""
 const self = process.argv[2]
-const usage = `Usage: ${self} info|load|add|remove bartoc-uri`
+const usage = `Usage: ${self} info|load|add|remove|download bartoc-uri`
 if (argv.help || argv.h || !cmd) {
   echo(usage)  
   process.exit()
 }
 
-if (!cmd.match(/^info|load|add|remove$/)) {
+if (!cmd.match(/^info|load|add|remove|download$/)) {
   error(`Unknown command: ${cmd}`)
 }
 ```
@@ -115,10 +115,6 @@ if (jskos.subject) {
     .map(({uri, prefLabel}) => ({uri, prefLabel}))
 }
 
-if (!jskos.namespace) {
-  error("Missing mandatory URI namespace!")
-}
-
 jskos.graph = `https://skosmos.bartoc.org/${id}`
 ```
 
@@ -132,6 +128,110 @@ async function jsonldGraph(doc) {
   const jsonld = require('jsonld')
   const nquads = await jsonld.toRDF(doc, { format: "application/n-quads" })
   return readTurtle(nquads)
+}
+
+const store = await jsonldGraph(jskos)
+```
+
+Additional configuration of the vocabulary is included.
+
+```js
+const config = await readTurtleFile("config/vocabularies.ttl")
+store.addQuads(config.getQuads(namedNode(uri), null, null))
+```
+
+With command `info` the vocabulary configuration is printed in RDF/Turtle format.
+
+```js
+const vocs = await readTurtleFile("vocabularies.ttl")
+const count = vocs.countQuads(namedNode(uri))
+
+if (cmd == "info") {
+  echo(await writeTurtle(store))
+  if (!count) {
+    echo `# Vocabulary missing from vocabularies.ttl! Run: ${self} add ${id}`
+  }
+} else {
+  echo `found ${uri}`
+}
+```
+
+```js
+const dump = store.getObjects(namedNode(uri),namedNode("http://rdfs.org/ns/void#dataDump"))[0]?.id
+const namespace = store.getObjects(namedNode(uri),namedNode("http://rdfs.org/ns/void#uriSpace"))[0]?.id
+```
+
+```js
+if (cmd == "download") {
+  if (!dump) {
+    error("Missing void:dataDump")
+  }
+  const stagefile = `stage/${id}/${id}.dat`
+  echo`Downloading ${dump} to ${stagefile}`
+  await fs.ensureDir(`stage/${id}`)
+  $.verbose = true
+  await $`curl --show-error --fail -L ${dump} > ${stagefile}`
+  // TODO: inspect result format
+  process.exit(0)
+}
+```
+
+An URI namespace must be know to proceed.
+
+```js
+if (!namespace) {
+  error("Missing mandatory URI namespace!")
+}
+```
+
+With command `load` the vocabulary content is loaded into Fuseki, command `add` adds it to Skosmos configuration.
+
+```js
+const fuseki = "http://localhost:3030"
+const graph = `https://skosmos.bartoc.org/${id}`
+
+if (cmd == "load") {
+  const ntfile = `load/${id}.nt`
+  if (!fs.existsSync(ntfile)) {
+    error(`Missing ${ntfile} to load`)
+  }
+  echo(`Loading ${ntfile} into ${graph}`)
+  await $`/opt/fuseki/bin/s-put ${fuseki}/skosmos/data ${graph} ${ntfile}`
+
+  if (!count) {
+    echo `Vocabulary missing from vocabularies.ttl! Run: ${self} add ${id}`
+  }
+} else if (cmd == "add") {
+  if (count) {
+    removeQuads(vocs, namedNode(uri))
+  }
+  vocs.addQuads(store.getQuads())
+  echo((count ? `Update ${id} in` : `Add ${id} to`) + ' vocabularies.ttl')
+  fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
+  await $`make config`
+} else if (cmd == "remove") {
+  if (count) {
+    echo(`Remove ${id} from vocabularies.ttl`)
+    removeQuads(voc, namedNode(uri))
+    fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
+    await $`make config`
+  } else {
+    echo `Vocabulary ${id} has not been added.`
+  }
+}
+```
+
+Some utility functions below.
+
+```js
+function error(msg) {
+  console.warn(chalk.red(msg))
+  process.exit(1)
+}
+
+function removeQuads(store, subject, predicate, object) {
+  for (let quad of store.getQuads(subject, predicate, object))
+    store.removeQuad(quad)
 }
 
 async function readTurtle(data) {
@@ -148,19 +248,6 @@ async function readTurtleFile(file) {
   return readTurtle(fs.readFileSync(file).toString())
 }
 
-const store = await jsonldGraph(jskos)
-```
-
-Additional configuration of the vocabulary is included.
-
-```js
-const config = await readTurtleFile("config/vocabularies.ttl")
-store.addQuads(config.getQuads(namedNode(id), null, null))
-```
-
-With command `info` the vocabulary configuration is printed in RDF/Turtle format.
-
-```js
 async function writeTurtle(store) {
   const prefixes = {
     void: "http://rdfs.org/ns/void#",
@@ -174,71 +261,7 @@ async function writeTurtle(store) {
   const writer = new N3.Writer({format: "Turtle", prefixes, baseIRI})
   writer.addQuads(store.getQuads())
   return new Promise(resolve => {
-    writer.end((error, result) => resolve("@base <#>.\n" + result))
+    writer.end((error, result) => resolve(`@base <${baseIRI}>.` + "\n" + result))
   })
-}
-
-const vocs = await readTurtleFile("vocabularies.ttl")
-const count = vocs.countQuads(namedNode(id))
-
-if (cmd == "info") {
-  echo(await writeTurtle(store))
-  if (!count) {
-    echo `# Vocabulary missing from vocabularies.ttl! Run: ${self} add ${id}`
-  }
-} else {
-  echo `found ${uri}`
-}
-```
-
-With command `load` the vocabulary content is loaded into Fuseki, command `add` adds it to Skosmos configuration.
-
-```js
-const fuseki = "http://localhost:3030"
-const graph = `https://skosmos.bartoc.org/${id}`
-
-if (cmd == "load") {
-  const ntfile = `load/${id}.nt`
-  if (!fs.existsSync(ntfile)) {
-    error(`Missing ${ntfile} to load`)
-  }
-  echo(`Loading ${ntfile} into ${graph}`)
-  $`/opt/fuseki/bin/s-put ${fuseki}/skosmos/data ${graph} ${ntfile}`
-
-  if (!count) {
-    echo `Vocabulary missing from vocabularies.ttl! Run: ${self} add ${id}`
-  }
-} else if (cmd == "add") {
-  if (count) {
-    // removeMatches did not work, so do it this way
-    for(let quad of vocs.getQuads(namedNode(id))) {
-      vocs.removeQuad(quad)
-    }
-  }
-
-  vocs.addQuads(store.getQuads())
-  echo((count ? `Update ${id} in` : `Add ${id} to`) + ' vocabularies.ttl')
-  fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
-  $`make config`
-} else if (cmd == "remove") {
-  if (count) {
-    echo(`Remove ${id} from vocabularies.ttl`)
-    for(let quad of vocs.getQuads(namedNode(id))) {
-      vocs.removeQuad(quad)
-    }
-    fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
-    $`make config`
-  } else {
-    echo `Vocabulary ${id} has not been added.`
-  }
-}
-```
-
-Some utility functions below.
-
-```js
-function error(msg) {
-  console.warn(chalk.red(msg))
-  process.exit(1)
 }
 ```
