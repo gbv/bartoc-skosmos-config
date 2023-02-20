@@ -4,7 +4,10 @@ Dieses git-Repository enthält Konfigurationsdateien und Skripte zur Verwaltung 
 
 ## Installation
 
-Ein Teil der Installation ist durch Aufruf von `make install` automatisiert. Vorausgesetzt wird `npm`.
+Ein Teil der Installation ist durch Aufruf von `make install` automatisiert. Vorausgesetzt wird:
+
+- `npm`
+- `pip` (Python3)
 
 Anschließend muss ein Apache-Webserver entsprechend der [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial) mit dem `Skosmos` Verzeichnis als `DocumentRoot` eingerichtet werden. Der Webserver kann auch auf einem anderen Port als `:80` laufen, wenn dieser schon belegt ist.
 
@@ -46,4 +49,28 @@ git submodule sync
 git submodule update --init --recursive --remote
 ~~
 
+## Migration von Basel
+
+### Redirects von alten URLs
+
+Die Skosmos-Instanz unter <https://bartoc-skosmos.unibas.ch/> verwendete Kurznamen statt BARTOC-ID-Nummern. Um Redirects von alten URLs (bei neuem Server) zu erhalten wurden zunächst bekannte BARTOC-IDs auf Kurznamen gemappt:
+
+~~~
+grep bartoc-skosmos latest.ndjson | jq -rc '[(.uri|split("/")[-1]),(.API[].url|select(match("bartoc-skosmos"))|split("/")[-2])]|@csv' | sed s/\"//g > shortnames.csv
+~~~
+
+Die folgenden Einträge sind nicht 1-zu-1 und wurden per Hand aussortiert:
+
+~~~csv
+460,ocm,outlinecm
+707,fast-event,fast-formgenre,fast-title,fast-chrono,fast-geo
+18804,ndlsh1,ndlsh2,ndlsh3,ndlsh4,ndlsh5
+475,CCS
+951,CNNAL
+952,CNNAL
+18686,brinkmangtt
+18687,brinkmangtt
+~~~
+
+Die 1-zu-1 Einträge können mit `make redirects` in Einträge für die Apache2-Konfiguration umgewandelt werden.
 

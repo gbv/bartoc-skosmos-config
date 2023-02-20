@@ -11,64 +11,55 @@
 
 <15>
     skosmos:searchByNotation "true" ;
-    skosmos:deprecatedShortName "EuroVoc"; 
     skosmos:showTopConcepts "true".
 
 <41>
     skosmos:searchByNotation "true" ;
-   skosmos:showTopConcepts "true";
-   skosmos:deprecatedShortName "USAID" .
+   skosmos:showTopConcepts "true".
 
 <1232>
     skosmos:searchByNotation "true" ;
     skosmos:showTopConcepts "true";
-    void:dataDump <https://www.nomenclature.info/api/dataset/nom?format=TURTLE>;
-    skosmos:deprecatedShortName "NMC" .
+    void:dataDump <https://www.nomenclature.info/api/dataset/nom?format=TURTLE>.
 
 <192>
     skosmos:searchByNotation "true" ;
     void:dataDump <https://vocabulary.curriculum.edu.au/scot/export/scot.rdf>;
-    skosmos:deprecatedShortName "ScOT";
     skosmos:showTopConcepts "true";
     skosmos:defaultLanguage "en".
 
 <475>
     skosmos:searchByNotation "true" ;
-    skosmos:deprecatedShortName "CCS" ;
-    skosmos:showTopConcepts "true"
-    .
+    skosmos:showTopConcepts "true" .
 
 <888>
-    skosmos:searchByNotation "true" ;
-    skosmos:deprecatedShortName "DiccNum".
+    skosmos:searchByNotation "true" .
 
 <939>
     skosmos:searchByNotation "true" ;
-    skosmos:showTopConcepts "true" ;
-    skosmos:deprecatedShortName "LEM".
+    skosmos:showTopConcepts "true" .
 
 <941>
     skosmos:searchByNotation "true" ;
     skosmos:showTopConcepts "true" ;
-    void:dataDump <http://publications.europa.eu/resource/authority/place>;
-    skosmos:deprecatedShortName "PNAL".
+    void:dataDump <http://publications.europa.eu/resource/authority/place>.
 
 <954>
     skosmos:searchByNotation "true" ;
-    skosmos:deprecatedShortName "CBNAL" ;
     skosmos:showTopConcepts "true" ;
     void:dataDump <http://publications.europa.eu/resource/authority/corporate-body-classification> .
 
 <1961>
     skosmos:searchByNotation "true" ;
-    skosmos:deprecatedShortName "sosemwebth"; 
     skosmos:defaultLanguage "en";
     void:dataDump <http://vocabulary.semantic-web.at/semweb/export/semweb.ttl> ;
-    skosmos:showTopConcepts "true"
-    .
+    skosmos:showTopConcepts "true" .
+
+<472>
+    skosmos:searchByNotation "true" ;
+    void:dataDump <http://www.iskoi.org/ilc/2/skos/ILC2.ttl>.
 
 <18688>
     skosmos:searchByNotation "true" ;
-    skosmos:deprecatedShortName "charreq"; 
     skosmos:fullAlphabeticalIndex "true";
     void:dataDump <https://www.w3.org/2003/03/glossary-project/data/glossaries/charreq.rdf>.
