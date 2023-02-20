@@ -73,6 +73,8 @@
 948,multnal
 949,lnal
 950,ftnal
+951,CNNAL
+952,CNAL
 953,enal
 954,CBNAL
 1071,NomenclatureGeoBret
@@ -139,6 +141,7 @@
 18682,archear
 18683,archelcs
 18685,atag
+18686,brinkmangtt
 18688,charreq
 18689,ccpp
 18690,DataRepTax
@@ -217,6 +220,11 @@
 18796,wsnal
 18798,dicctec
 18801,olacvggft
+18804,ndlsh1
+18804,ndlsh2
+18804,ndlsh3
+18804,ndlsh4
+18804,ndlsh5
 18808,admscv
 18809,aksm
 18815,hklj

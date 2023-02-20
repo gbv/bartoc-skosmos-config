@@ -211,7 +211,7 @@ An URI namespace must be know to proceed.
 
 ```js
 if (!namespace) {
-  error("Missing mandatory URI namespace!")
+  console.log("Missing URI namespace - Vocabulary content will not be visible!")
 }
 ```
 

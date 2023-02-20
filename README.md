@@ -59,18 +59,12 @@ Die Skosmos-Instanz unter <https://bartoc-skosmos.unibas.ch/> verwendete Kurznam
 grep bartoc-skosmos latest.ndjson | jq -rc '[(.uri|split("/")[-1]),(.API[].url|select(match("bartoc-skosmos"))|split("/")[-2])]|@csv' | sed s/\"//g > shortnames.csv
 ~~~
 
-Die folgenden Einträge sind nicht 1-zu-1 und wurden per Hand aussortiert:
+Einige Einträge waren nicht 1-zu-1 und wurden per Hand angepasst. Es bleiben folgenden zu klärende Fälle:
 
 ~~~csv
 460,ocm,outlinecm
 707,fast-event,fast-formgenre,fast-title,fast-chrono,fast-geo
-18804,ndlsh1,ndlsh2,ndlsh3,ndlsh4,ndlsh5
-475,CCS
-951,CNNAL
-952,CNNAL
-18686,brinkmangtt
-18687,brinkmangtt
 ~~~
 
-Die 1-zu-1 Einträge können mit `make redirects` in Einträge für die Apache2-Konfiguration umgewandelt werden.
+Die 1-zu-n Einträge können mit `make redirects` in Einträge für die Apache2-Konfiguration umgewandelt werden.
 
