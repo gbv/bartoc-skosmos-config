@@ -5,7 +5,7 @@
 
 node_modules
 
-voc.md.mjs
+config.md.mjs
 
 load/
 vocabularies.ttl

@@ -7,15 +7,20 @@ const { N3, readRDF, readRDFFile, removeQuads } = require("./src/rdf.js")
 
 const cmd = argv._[0] || ""
 const self = process.argv[2]
-const usage = `Usage: ${self} info|load|add|remove|download bartoc-uri`
+const usage = `Usage: ${self} init|info|load|add|remove|download [bartoc-uri]`
 if (argv.help || argv.h || !cmd) {
   echo(usage)  
   process.exit()
 }
 
-if (!cmd.match(/^info|load|add|remove|download$/)) {
+if (cmd == "init") {
+  await init()
+  process.exit()
+} else if (!cmd.match(/^init|info|load|add|remove|download$/)) {
   error(`Unknown command: ${cmd}`)
 }
+
+
 ```
 
 The vocabulary identifier is passed as command line argument as URI or plain number.
@@ -138,7 +143,7 @@ const store = await jsonldGraph(jskos)
 Additional configuration of the vocabulary is included.
 
 ```js
-const config = await readRDFFile("config/vocabularies.ttl", "application/turtle")
+const config = await readRDFFile("conf/vocabularies.ttl", "application/turtle")
 store.addQuads(config.getQuads(namedNode(uri), null, null))
 ```
 
@@ -234,13 +239,13 @@ if (cmd == "load") {
   vocs.addQuads(store.getQuads())
   echo((count ? `Update ${id} in` : `Add ${id} to`) + ' vocabularies.ttl')
   fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
-  await $`make config`
+  await init()
 } else if (cmd == "remove") {
   if (count) {
     echo(`Remove ${id} from vocabularies.ttl`)
-    removeQuads(voc, namedNode(uri))
+    removeQuads(config, namedNode(uri))
     fs.writeFileSync("vocabularies.ttl", await writeTurtle(vocs))
-    await $`make config`
+    await init()
   } else {
     echo `Vocabulary ${id} has not been added.`
   }
@@ -253,6 +258,14 @@ Some utility functions below.
 function error(msg) {
   console.warn(chalk.red(msg))
   process.exit(1)
+}
+
+async function init() {
+  const vocfile = "vocabularies.ttl"
+  if (!fs.existsSync(vocfile)) {
+    fs.closeSync(fs.openSync(vocfile, "a"))
+  }
+  await $`cat conf/main.ttl conf/categories.ttl ${vocfile} > Skosmos/config.ttl`
 }
 
 async function writeTurtle(store) {

@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "zx": "zx"
+  },
+  "dependencies": {
+    "jsonld": "^8.1.0",
+    "n3": "^1.16.3"
+  }
+}

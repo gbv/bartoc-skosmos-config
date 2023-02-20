@@ -4,30 +4,30 @@ Dieses git-Repository enthält Konfigurationsdateien und Skripte zur Verwaltung 
 
 ## Installation
 
-Vorausgesetzt wird ein auf Port 3030 erreichbarer Fuseki-Triple-Store mit einer Datenbank `skosmos` (siehe [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial)).
+Ein Teil der Installation ist durch Aufruf von `make install` automatisiert. Vorausgesetzt wird `npm`.
 
-Skosmos wird im Unterverzeichnis `Skosmos` ausgecheckt:
+Anschließend muss ein Apache-Webserver entsprechend der [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial) mit dem `Skosmos` Verzeichnis als `DocumentRoot` eingerichtet werden. Der Webserver kann auch auf einem anderen Port als `:80` laufen, wenn dieser schon belegt ist.
 
-~~~
-git submodule update --init
-~~
-
-Anschließend muss ein Apache-Webserver entsprechend der [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial) mit dem Skosmos-Verzeichnis als `DocumentRoot` eingerichtet werden. Der Webserver kann auch auf einem anderen Port als `:80` laufen, wenn dieser schon belegt ist.
-
-Ein Test-Aufruf von Skosmos unter http://localhost:80/ sollte folgende Fehlermeldung liefert:
+Ein Test-Aufruf von Skosmos unter http://localhost:80/ sollte anschließend folgende Fehlermeldung liefert:
 
 > Error: config.ttl file is missing, please provide one.
 
-Die fehlende Konfiguration wird mit `make config.ttl` erstellt.
+Die Grundkonfiguration wird mit `./conf init` erstellt. Anschließend sollte BARTOC folgende Meldung anzeigen:
 
-## Vokabulare hinzufügen, aktualisieren, löschen...
+> No vocabularies on the server!
 
-Das Skript `voc.md` benötigt [zx](https://github.com/google/zx).
+Nun muss ein auf Port 3030 erreichbarer Fuseki-Triple-Store mit einer Datenbank `skosmos` eingerichtet werden (siehe [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial)).
+
+## Vokabulare verwalten
+
+Zum Hinzufügen, Aktualisieren und Entfernen von Vokabularen dient das Skript `./config`, dem jeweils ein Befehl und eine BARTOC-ID übergeben wird:
 
 ~~
-./voc.md info $id
-./voc.md add $id   # add or replace
-./voc.md load $id
+./config info 1232       # Konfiguration von Vokabular 15 anzeigen (auch falls nicht aktiviert)
+./config add 1232        # Vokabular 15 aktivieren bzw. Konfiguration aktualisieren.
+./config download 1232   # Vokabulardaten herunterladen (falls Ort bekannt)
+./config convert 1232    # Heruntergeladene Vokabulardaten konvertieren (NOCH NICHT UMGESETZT)
+./config load 1232       # Daten von Vokabular 15 in Fuseki laden (falls vorhanden)
 ~~~
 
 Das Entfernen von Vokabular-Daten aus Fuseki geht so:
