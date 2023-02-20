@@ -1,4 +1,4 @@
-config: Skosmos/config.ttl
+config.ttl: Skosmos/config.ttl
 
 Skosmos/config.ttl: config/main.ttl config/categories.ttl vocabularies.ttl
 	# TODO: check valid Turtle/RDF syntax

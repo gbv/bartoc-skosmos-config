@@ -3,6 +3,8 @@
 The script expects a command as first argument
 
 ```js
+const { N3, readRDF, readRDFFile, removeQuads } = require("./src/rdf.js")
+
 const cmd = argv._[0] || ""
 const self = process.argv[2]
 const usage = `Usage: ${self} info|load|add|remove|download bartoc-uri`
@@ -121,13 +123,13 @@ jskos.graph = `https://skosmos.bartoc.org/${id}`
 ...and then transformed to RDF.
 
 ```js
-const N3 = require('n3')
 const { namedNode } = N3.DataFactory
 
 async function jsonldGraph(doc) {
   const jsonld = require('jsonld')
-  const nquads = await jsonld.toRDF(doc, { format: "application/n-quads" })
-  return readTurtle(nquads)
+  const format = "application/n-quads"
+  const nquads = await jsonld.toRDF(doc, { format })
+  return readRDF(nquads, format)
 }
 
 const store = await jsonldGraph(jskos)
@@ -136,14 +138,14 @@ const store = await jsonldGraph(jskos)
 Additional configuration of the vocabulary is included.
 
 ```js
-const config = await readTurtleFile("config/vocabularies.ttl")
+const config = await readRDFFile("config/vocabularies.ttl", "application/turtle")
 store.addQuads(config.getQuads(namedNode(uri), null, null))
 ```
 
 With command `info` the vocabulary configuration is printed in RDF/Turtle format.
 
 ```js
-const vocs = await readTurtleFile("vocabularies.ttl")
+const vocs = await readRDFFile("vocabularies.ttl", "application/turtle")
 const count = vocs.countQuads(namedNode(uri))
 
 if (cmd == "info") {
@@ -163,17 +165,41 @@ const namespace = store.getObjects(namedNode(uri),namedNode("http://rdfs.org/ns/
 
 ```js
 if (cmd == "download") {
-  if (!dump) {
+  if (dump) {
+    await downloadRDF(id, dump)
+  } else {
     error("Missing void:dataDump")
   }
-  const stagefile = `stage/${id}/${id}.dat`
-  echo`Downloading ${dump} to ${stagefile}`
-  await fs.ensureDir(`stage/${id}`)
-  $.verbose = true
-  await $`curl --show-error --fail -L ${dump} > ${stagefile}`
-  // TODO: inspect result format
   process.exit(0)
 }
+
+async function downloadRDF(id, url) {
+  const filename = (await $`curl -OJsL ${url} --fail -w "%{filename_effective}"`) || "download"
+  const fullname = `stage/${id}/${filename}`
+  echo("")
+
+  echo`Downloading ${url} to ${fullname}`
+  await fs.ensureDir(`stage/${id}`)
+  await $`curl --show-error --fail -L ${url} > ${fullname}`
+
+  var format
+  if (fullname.match(/\.(nt|ttl)$/)) {
+    format = "application/turtle"
+  } else if (fullname.match(/\.(rdf|rdfxml|xml)$/)) {
+    format = "application/rdf+xml"
+  } else {
+    // See https://github.com/dice-group/rdfdetector for better approach
+    const firstline = await $`head -1 ${fullname}`
+    if (firstline.match(/^\*<?xml/i)) {
+      format = "application/rdf+xml"
+    } else {
+      format = "application/turtle"
+    }
+  }
+
+  echo `Guess format is ${format}`
+}
+
 ```
 
 An URI namespace must be know to proceed.
@@ -227,25 +253,6 @@ Some utility functions below.
 function error(msg) {
   console.warn(chalk.red(msg))
   process.exit(1)
-}
-
-function removeQuads(store, subject, predicate, object) {
-  for (let quad of store.getQuads(subject, predicate, object))
-    store.removeQuad(quad)
-}
-
-async function readTurtle(data) {
-  const store = new N3.Store()
-  const parser = new N3.Parser({ format: "application/turtle" })
-    await parser.parse(data, (error, quad, prefixes) => {
-    if (error) throw new Error(`PARSE ERROR: ${error}`)
-    if (quad) store.addQuad(N3.DataFactory.quad(quad._subject, quad._predicate, quad._object))
-  })
-  return store
-}
-
-async function readTurtleFile(file) {
-  return readTurtle(fs.readFileSync(file).toString())
 }
 
 async function writeTurtle(store) {

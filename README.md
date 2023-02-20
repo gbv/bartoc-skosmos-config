@@ -1,8 +1,24 @@
 # BARTOC Skosmos
 
-Dieses Repository enthält Konfigurationsdateien und Skripte zur Verwaltung von BARTOC Skosmos (<https://skosmos.bartoc.org/>).
+Dieses git-Repository enthält Konfigurationsdateien und Skripte zur Verwaltung von BARTOC Skosmos (<https://skosmos.bartoc.org/>). Die Benutzeroberfläche ist als git submodule im Repository <https://github.com/gbv/bartoc-skosmos> mit einem Fork von Skosmos, während hier Skripte zur Verwaltung des Terminologiedienst liegen.
 
-Vorausgesetzt wird ein Fuseki-Triple-Store, der per Port 3030 erreichbar ist.
+## Installation
+
+Vorausgesetzt wird ein auf Port 3030 erreichbarer Fuseki-Triple-Store mit einer Datenbank `skosmos` (siehe [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial)).
+
+Skosmos wird im Unterverzeichnis `Skosmos` ausgecheckt:
+
+~~~
+git submodule update --init
+~~
+
+Anschließend muss ein Apache-Webserver entsprechend der [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial) mit dem Skosmos-Verzeichnis als `DocumentRoot` eingerichtet werden. Der Webserver kann auch auf einem anderen Port als `:80` laufen, wenn dieser schon belegt ist.
+
+Ein Test-Aufruf von Skosmos unter http://localhost:80/ sollte folgende Fehlermeldung liefert:
+
+> Error: config.ttl file is missing, please provide one.
+
+Die fehlende Konfiguration wird mit `make config.ttl` erstellt.
 
 ## Vokabulare hinzufügen, aktualisieren, löschen...
 
