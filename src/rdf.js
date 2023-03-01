@@ -1,5 +1,8 @@
-const N3 = require('n3')
-const fs = require('fs')
+import N3 from 'n3'
+import fs from 'fs-extra'
+import jsonld from "jsonld"
+import { $ } from 'zx'
+import { echo } from './utils.js'
 
 function removeQuads(store, subject, predicate, object) {
   for (let quad of store.getQuads(subject, predicate, object))
@@ -20,4 +23,53 @@ async function readRDFFile(file, format) {
   return readRDF(fs.readFileSync(file).toString(), format)
 }
 
-module.exports = { N3, readRDF, readRDFFile, removeQuads }
+async function readJSONLD(doc) {
+  const format = "application/n-quads"
+  const nquads = await jsonld.toRDF(doc, { format })
+  return readRDF(nquads, format)
+}
+
+async function writeTurtle(store, baseIRI) {
+  const prefixes = {
+    void: "http://rdfs.org/ns/void#",
+    skos: "http://www.w3.org/2004/02/skos/core#",
+    skosmos: "http://purl.org/net/skosmos#",
+    dc: "http://purl.org/dc/terms/",
+    dct: "http://purl.org/dc/terms/",
+    foaf: "http://xmlns.com/foaf/0.1/"
+  }
+  const writer = new N3.Writer({format: "Turtle", prefixes, baseIRI})
+  writer.addQuads(store.getQuads())
+  return new Promise(resolve => {
+    writer.end((error, result) => resolve(`@base <${baseIRI}>.` + "\n" + result))
+  })
+}
+
+async function downloadRDF(id, url) {
+  const filename = (await $`curl -OJsL ${url} --fail -w "%{filename_effective}"`) || "download"
+  const fullname = `stage/${id}/${filename}`
+  echo("")
+
+  echo`Downloading ${url} to ${fullname}`
+  await fs.ensureDir(`stage/${id}`)
+  await $`curl --show-error --fail -L ${url} > ${fullname}`
+
+  var format
+  if (fullname.match(/\.(nt|ttl)$/)) {
+    format = "application/turtle"
+  } else if (fullname.match(/\.(rdf|rdfxml|xml)$/)) {
+    format = "application/rdf+xml"
+  } else {
+    // See https://github.com/dice-group/rdfdetector for better approach
+    const firstline = await $`head -1 ${fullname}`
+    if (firstline.match(/^\*<?xml/i)) {
+      format = "application/rdf+xml"
+    } else {
+      format = "application/turtle"
+    }
+  }
+
+  echo `Guess format is ${format}`
+}
+
+export { N3, readRDF, readRDFFile, removeQuads, readJSONLD, writeTurtle, downloadRDF }

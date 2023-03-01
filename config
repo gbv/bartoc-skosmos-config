@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-npm run --silent zx config.md -- "$@"
+npm run --silent config -- "$@"

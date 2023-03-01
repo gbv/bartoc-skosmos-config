@@ -1,0 +1,10 @@
+id,void:dataDump,skosmos:fullAlphabeticalIndex
+7,https://data.naa.gov.au/def/agift/export/def/agift.rdf,
+11,http://www.collectionscanada.gc.ca/obj/900/f11/040004/csh.rdf,
+1232,https://www.nomenclature.info/api/dataset/nom?format=TURTLE,
+192,https://vocabulary.curriculum.edu.au/scot/export/scot.rdf,
+941,http://publications.europa.eu/resource/authority/place,
+954,http://publications.europa.eu/resource/authority/corporate-body-classification,
+1961,http://vocabulary.semantic-web.at/semweb/export/semweb.ttl,
+472,http://www.iskoi.org/ilc/2/skos/ILC2.ttl,
+18688,https://www.w3.org/2003/03/glossary-project/data/glossaries/charreq.rdf,true

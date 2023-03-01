@@ -4,6 +4,13 @@
 # This is Dewey Decimal Classification, first level only.
 #
 
+# Required to be included in Skosmos configuration
+
+@prefix skosmos: <http://purl.org/net/skosmos#> .
+
+<#config> a skosmos:Configuration .
+
+
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <http://dewey.info/scheme/edition/e23/> a skos:ConceptScheme;

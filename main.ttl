@@ -5,18 +5,22 @@
 @prefix skosmos: <http://purl.org/net/skosmos#> .
 @prefix : <#> .
 
+
 :config a skosmos:Configuration ;
-    # SPARQL endpoint
-    # a local Fuseki server is usually on localhost:3030
+
+    skosmos:includeConfig <../categories.ttl> ;
+
+    # SPARQL Endpoint configuration
     skosmos:sparqlEndpoint <http://localhost:3030/skosmos/sparql> ;
-    # sparql-query extension, or "Generic" for plain SPARQL 1.1
-    # set to "JenaText" instead if you use Fuseki with jena-text index
     skosmos:sparqlDialect "JenaText" ;
-    # whether to enable collation in sparql queries
+
+    # whether to enable collation in sparql queries: ??
     skosmos:sparqlCollationEnabled false ;
+
     # HTTP client configuration
     skosmos:sparqlTimeout 20 ;
     skosmos:httpTimeout 5 ;
+
     # customize the service name
     skosmos:serviceName "BARTOC Skosmos (beta)" ;
     skosmos:baseHref "https://skosmos.bartoc.org/" ;

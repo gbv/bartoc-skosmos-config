@@ -1,9 +1,13 @@
 {
   "scripts": {
-    "zx": "zx"
+    "config": "node ./config.js"
   },
+  "type": "module",
   "dependencies": {
+    "comma-separated-values": "^3.6.4",
+    "fs-extra": "^11.1.0",
     "jsonld": "^8.1.0",
-    "n3": "^1.16.3"
+    "n3": "^1.16.3",
+    "zx": "^7.2.0"
   }
 }

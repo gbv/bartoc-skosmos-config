@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+set -e
+
+input=$1
+dir=$(dirname "$input")
+id=$(basename "$dir")
+output=load/$id.nt
+
+if [[ ! "$dir" =~ ^.*stage/[0-9]+$ ]]; then
+  echo 'Expecting RDF input file in ./stage/$ID/*.{nt,ttl,rdf,xml}'
+  exit 1
+fi
+
+skosify -c skosify.cfg -o load/tmp.nt -e $input
+mv load/tmp.nt $output
+wc -l $output

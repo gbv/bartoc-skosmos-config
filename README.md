@@ -15,13 +15,13 @@ Ein Test-Aufruf von Skosmos unter http://localhost:80/ sollte anschließend folg
 
 > Error: config.ttl file is missing, please provide one.
 
-Die Grundkonfiguration wird mit `./conf init` erstellt. Anschließend sollte BARTOC folgende Meldung anzeigen:
+Die Grundkonfiguration wird mit `./config init` erstellt. Anschließend sollte BARTOC folgende Meldung anzeigen:
 
 > No vocabularies on the server!
 
 Nun muss ein auf Port 3030 erreichbarer Fuseki-Triple-Store mit einer Datenbank `skosmos` eingerichtet werden (siehe [Installationsanleitung](https://github.com/NatLibFi/Skosmos/wiki/InstallTutorial)).
 
-## Vokabulare verwalten
+## Verwaltung von Vokabularen
 
 Zum Hinzufügen, Aktualisieren und Entfernen von Vokabularen dient das Skript `./config`, dem jeweils ein Befehl und eine BARTOC-ID übergeben wird:
 
@@ -29,14 +29,15 @@ Zum Hinzufügen, Aktualisieren und Entfernen von Vokabularen dient das Skript `.
 ./config info 1232       # Konfiguration von Vokabular 15 anzeigen (auch falls nicht aktiviert)
 ./config add 1232        # Vokabular 15 aktivieren bzw. Konfiguration aktualisieren.
 ./config download 1232   # Vokabulardaten herunterladen (falls Ort bekannt)
-./config convert 1232    # Heruntergeladene Vokabulardaten konvertieren (NOCH NICHT UMGESETZT)
-./config load 1232       # Daten von Vokabular 15 in Fuseki laden (falls vorhanden)
+./config prepare 1232    # Heruntergeladene Vokabulardaten zum Laden vorbereiten (NOCH NICHT UMGESETZT)
+./config load 1232       # Daten von Vokabular 1232 in Fuseki laden (falls vorhanden)
+./config unload 1232	 # Daten von Vokabular 1232 in Fuseki entfernen (falls vorhanden)
 ~~~
 
-Das Entfernen von Vokabular-Daten aus Fuseki geht so:
+Das Vorbereiten (Bereinigen und Konvertieren) von heruntergeladenen Vokabularen muss noch per Hand gemacht werden, z.B.
 
 ~~~
-/opt/fuseki/bin/s-delete http://esx-43.gbv.de:3030/skosmos/data $graph
+./skosify stage/11/csh.rdf
 ~~~
 
 ## Update von Skosmos
