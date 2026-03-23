@@ -25,7 +25,7 @@ Nun muss ein auf Port 3030 erreichbarer Fuseki-Triple-Store mit einer Datenbank 
 
 Zum Hinzufügen, Aktualisieren und Entfernen von Vokabularen dient das Skript `./config`, dem jeweils ein Befehl und eine BARTOC-ID übergeben wird:
 
-~~
+~~~
 ./config info 1232       # Konfiguration von Vokabular 15 anzeigen (auch falls nicht aktiviert)
 ./config download 1232   # Vokabulardaten herunterladen (falls Ort bekannt)
 ./config prepare 1232    # Heruntergeladene Vokabulardaten zum Laden vorbereiten (NOCH NICHT UMGESETZT)
@@ -40,15 +40,21 @@ Das Vorbereiten (Bereinigen und Konvertieren) von heruntergeladenen Vokabularen 
 ./skosify stage/11/csh.rdf
 ~~~
 
+Oder
+
+~~~
+rapper -i turtle stage/1234.ttl > load/1234.nt
+~~~
+
 ## Update von Skosmos
 
 Permanenter Wechsel des Branch von Skosmos:
 
-~~
+~~~
 git submodule set-branch -b $branch Skosmos
 git submodule sync
 git submodule update --init --recursive --remote
-~~
+~~~
 
 ## Migration von Basel
 
