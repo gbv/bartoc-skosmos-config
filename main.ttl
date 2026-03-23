@@ -5,7 +5,6 @@
 @prefix skosmos: <http://purl.org/net/skosmos#> .
 @prefix : <#> .
 
-
 :config a skosmos:Configuration ;
 
     skosmos:includeConfig <../categories.ttl> ;

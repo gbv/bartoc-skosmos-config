@@ -6,7 +6,7 @@ const { _, help, h } = minimist(process.argv.slice(2))
 export const cmd = help || h || !_.length ? "help" : _[0]
 
 // The vocabulary identifier is passed as URI or plain number
-export const id = (_.length > 1 ? "" + _[1] : "").replace(/^https?:\/\/bartoc\.org\/[a-z+]\/node\//,"")
+export const id = (_.length > 1 ? "" + _[1] : "").replace(/^https?:\/\/bartoc\.org\/[a-z]+\/node\//,"")
 if (_.length > 1 && !id.match(/^[1-9][0-9]*$/)) {
   error(`Invalid BARTOC Identifier: ${id}`)
 }

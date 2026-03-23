@@ -15,6 +15,9 @@ const commands = {
 
 usage(commands)
 
+import { FusekiClient } from "./src/database.js"
+const database = new FusekiClient("http://localhost:3030")
+
 if (cmd == "init") {
   await init()
   process.exit()
@@ -22,6 +25,8 @@ if (cmd == "init") {
 
 if (!id) { error("Please provide a BARTOC ID/URI!") }
 const uri = `http://bartoc.org/en/node/${id}`
+const graph = `https://skosmos.bartoc.org/${id}`
+
 ok(`# ${uri} found at bartoc.org`)
 
 // BARTOC.org is queried for the vocabulary as JSKOS Concept Scheme. The vocabulary must be found to proceed.
@@ -84,10 +89,6 @@ if (!namespace) {
 }
 
 // With command `load` the vocabulary content is loaded into Fuseki, command `add` adds it to Skosmos configuration.
-
-import { FusekiClient } from "./src/database.js"
-const graph = `https://skosmos.bartoc.org/${id}`
-const database = new FusekiClient("http://localhost:3030")
 
 async function unload() {
   return database.deleteGraph(graph)

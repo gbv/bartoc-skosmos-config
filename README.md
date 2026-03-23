@@ -27,9 +27,9 @@ Zum Hinzufügen, Aktualisieren und Entfernen von Vokabularen dient das Skript `.
 
 ~~
 ./config info 1232       # Konfiguration von Vokabular 15 anzeigen (auch falls nicht aktiviert)
-./config add 1232        # Vokabular 15 aktivieren bzw. Konfiguration aktualisieren.
 ./config download 1232   # Vokabulardaten herunterladen (falls Ort bekannt)
 ./config prepare 1232    # Heruntergeladene Vokabulardaten zum Laden vorbereiten (NOCH NICHT UMGESETZT)
+./config add 1232        # Vokabular 15 aktivieren bzw. Konfiguration aktualisieren.
 ./config load 1232       # Daten von Vokabular 1232 in Fuseki laden (falls vorhanden)
 ./config unload 1232	 # Daten von Vokabular 1232 in Fuseki entfernen (falls vorhanden)
 ~~~

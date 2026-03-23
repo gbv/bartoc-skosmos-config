@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "config": "node ./config.js"
+    "config": "node ./config.js",
+    "status": "node ./status.js"
   },
   "type": "module",
   "dependencies": {
