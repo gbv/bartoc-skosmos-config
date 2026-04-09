@@ -40,3 +40,4 @@ id,void:dataDump,skosmos:fullAlphabeticalIndex
 20682,https://xtree-public.digicult-verbund.de/generate_rdf_dev/output/concept_scheme?format=turtle&uri=http://terminology.lido-schema.org/eventPlace_type,true
 20683,https://xtree-public.digicult-verbund.de/generate_rdf_dev/output/concept_scheme?format=turtle&uri=http://terminology.lido-schema.org/eventDescriptionSet_type,true
 20738,https://xtree-public.digicult-verbund.de/generate_rdf_dev/output/concept_scheme?format=turtle&uri=http://terminology.lido-schema.org/genderActor,true
+18510,https://d-nb.info/standards/vocab/gnd/gnd-sc.ttl
