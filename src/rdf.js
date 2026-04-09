@@ -61,7 +61,7 @@ async function downloadRDF(id, url) {
     format = "application/rdf+xml"
   } else {
     // See https://github.com/dice-group/rdfdetector for better approach
-    const firstline = await $`head -1 ${fullname}`
+    const firstline = (await $`head -1 ${fullname}`).stdout
     if (firstline.match(/^\*<?xml/i)) {
       format = "application/rdf+xml"
     } else {
